@@ -1,10 +1,40 @@
 import React from "react";
 import SideBar from "../../components/SidebarUser";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
+import { useAuth } from "../../hooks/useAuth";
 
 const UploadBayar = () => {
   const [status, setStatus] = useState(false);
+  const [image, setImage] = useState(null);
+  const { jumlah, setJumlah, user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("jumlah", jumlah);
+    formData.append("image", image);
+    formData.append("status", true);
+
+    try {
+      const res = await axios.post(`http://localhost:3000/api/users/${user.id}/pembayaran`, formData);
+      console.log(res.data);
+      // reset form input fields
+      setJumlah("");
+      setImage(null);
+      setStatus(true);
+      if (res.status === 200) {
+        console.log("berhasil")
+        navigate("/user/pembayaran");
+        // pengumuman berhasil dibuat, navigasi kembali ke halaman pengumuman
+        return;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <>
@@ -16,8 +46,9 @@ const UploadBayar = () => {
             <h1>Pembayaran</h1>
           </div>
           <div className="ml-5 mt-12">
-            <div className="mt-3 bg-primary-2 p-10 ">
+            <form className="mt-3 bg-primary-2 p-10 " onSubmit={handleSubmit}>
               <h1 className="mx-5 text-xl text-base-1 pt-5">Upload Bukti Bayar</h1>
+              <h1 className="mx-5 text-xl text-base-1 pt-5">Tagihan : {jumlah}</h1>
               <div className="bg-base-1 mt-7 mx-5 w-1/2">
                 <div className="flex p-10 text-lg">
                   <div className="flex items-center justify-center w-full">
@@ -34,16 +65,16 @@ const UploadBayar = () => {
                         </p>
                         <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                       </div>
-                      <input id="dropzone-file" type="file" className="hidden" />
+                      <input id="dropzone-file" type="file" className="hidden" onChange={(e) => setImage(e.target.files[0])} />
                     </label>
                   </div>
                 </div>
               </div>
 
               <div className=" mt-7 text-right ">
-                <button className="bg-base-1 px-32 py-3 rounded-lg mr-10 hover:bg-primary-1">Bayar</button>
+                <button type="submit" className="bg-base-1 px-32 py-3 rounded-lg mr-10 hover:bg-primary-1">Bayar</button>
               </div>
-            </div>
+            </form>
           </div>
         </section>
       </div>

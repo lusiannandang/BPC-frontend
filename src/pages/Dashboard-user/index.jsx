@@ -1,11 +1,19 @@
 import React from "react";
 import SideBar from "../../components/SidebarUser";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const index = () => {
-  const [kelas, setKelas] = useState(false);
-  const [status, setStatus] = useState(false);
+  const { user, kelas } = useAuth();
+  const navigate = useNavigate();
+
+  if (!user) {
+    navigate("/login");
+    return null;
+  }
 
   return (
     <>
@@ -16,9 +24,9 @@ const index = () => {
           <div className="ml-5 mt-16 grid grid-cols-5">
             <div className="text-4xl font-semibold col-span-4">
               <h1>Halo,</h1>
-              <h1>Selamat datang!</h1>
+              <h1>Selamat datang {user.name}!</h1>
             </div>
-            {status ? (
+            {user.status ? (
               <div className="text-center">
                 <h1 className="text-base-1 bg-success px-4 py-1 rounded-3xl w-1/2">Aktif</h1>
               </div>
@@ -38,11 +46,13 @@ const index = () => {
             <h1>Anggota kelas anda</h1>
             <div className="mt-3 bg-primary-2 h-screen w-full">
               {kelas ? (
-                <div></div>
+                <div>{kelas[0].nama}</div>
               ) : (
                 <div className="text-center pt-48">
                   <h1 className="mb-10 text-lg">Isi Kuisioner Penentuan Kelas</h1>
-                  <Link to="/kuisioner" className="btn bg-base-1 p-5 rounded-lg">Kuisioner</Link>
+                  <Link to="/user/kuisioner" className="btn bg-base-1 p-5 rounded-lg">
+                    Kuisioner
+                  </Link>
                 </div>
               )}
             </div>

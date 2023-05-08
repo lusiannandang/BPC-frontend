@@ -1,32 +1,38 @@
 import React from "react";
 import SideBar from "../../components/SidebarAdmin";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 
 const TambahPengumuman = () => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [judul, setJudul] = useState("");
+  const [isi, setIsi] = useState("");
+  const [image, setImage] = useState(null);
+  const navigate = useNavigate();
 
-  // Handle perubahan judul
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("judul", judul);
+    formData.append("isi", isi);
+    formData.append("image", image);
+
+    try {
+      const res = await axios.post("http://localhost:3000/api/pengumuman", formData);
+      console.log(res.data);
+      // reset form input fields
+      setJudul("");
+      setIsi("");
+      setImage(null);
+      if (res.status === 200) {
+        // pengumuman berhasil dibuat, navigasi kembali ke halaman pengumuman
+        return navigate("/admin/pengumuman");
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  // Handle perubahan isi konten
-  const handleContentChange = (event) => {
-    setContent(event.target.value);
-  };
-
-  // Handle submit form
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Lakukan sesuatu dengan data judul dan isi konten, misalnya mengirim data ke API atau menyimpan ke state global
-    console.log("Judul:", title);
-    console.log("Isi Konten:", content);
-    // Reset form setelah submit
-    setTitle("");
-    setContent("");
-  };
   return (
     <>
       <div className="w-full max-w-screen-xl flex flex-row pt-16 sm:ml-64">
@@ -44,22 +50,28 @@ const TambahPengumuman = () => {
 
                   <input
                     type="text"
-                    value={title}
-                    onChange={handleTitleChange}
+                    value={judul}
+                    onChange={(e) => setJudul(e.target.value)}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   />
                 </label>
                 <br />
                 <label className="block mb-3 text-sm font-medium text-gray-900 dark:text-white">
-                <h1 className="mb-3 text-lg">Konten</h1>
+                  <h1 className="mb-3 text-lg">Konten</h1>
                   <textarea
-                    value={content}
-                    onChange={handleContentChange}
+                    value={isi}
+                    onChange={(e) => setIsi(e.target.value)}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-36 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   />
                 </label>
+                <label>
+                  Image:
+                  <input type="file" onChange={(e) => setImage(e.target.files[0])} />
+                </label>
                 <div className="text-right mt-8 ">
-                  <Link to="/admin/pengumuman/tambah" className="text-center bg-primary-2 text-base-1 px-5 py-2 rounded-md mr-10 hover:bg-primary-1">Tambah</Link>
+                  <button type="submit" className="text-center bg-primary-2 text-base-1 px-5 py-2 rounded-md mr-10 hover:bg-primary-1">
+                    Tambah
+                  </button>
                 </div>
               </form>
             </div>

@@ -1,25 +1,41 @@
 import React from "react";
 import SideBar from "../../components/SidebarUser";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 const Pengumuman = () => {
-  const data = [
-    {
-      id: 1,
-      judul: "Libur",
-      isi: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed placeat nesciunt illo esse unde omnis eligendi, perferendis obcaecati repellat eius! Sint maxime odio architecto numquam illo possimus explicabo maiores illum!",
-    },
-    {
-      id: 2,
-      judul: "Libur",
-      isi: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed placeat nesciunt illo esse unde omnis eligendi, perferendis obcaecati repellat eius! Sint maxime odio architecto numquam illo possimus explicabo maiores illum!",
-    },
-    {
-      id: 3,
-      judul: "Libur",
-      isi: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed placeat nesciunt illo esse unde omnis eligendi, perferendis obcaecati repellat eius! Sint maxime odio architecto numquam illo possimus explicabo maiores illum!",
-    },
-  ];
+  // const data = [
+  //   {
+  //     id: 1,
+  //     judul: "Libur",
+  //     isi: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed placeat nesciunt illo esse unde omnis eligendi, perferendis obcaecati repellat eius! Sint maxime odio architecto numquam illo possimus explicabo maiores illum!",
+  //   },
+  //   {
+  //     id: 2,
+  //     judul: "Libur",
+  //     isi: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed placeat nesciunt illo esse unde omnis eligendi, perferendis obcaecati repellat eius! Sint maxime odio architecto numquam illo possimus explicabo maiores illum!",
+  //   },
+  //   {
+  //     id: 3,
+  //     judul: "Libur",
+  //     isi: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed placeat nesciunt illo esse unde omnis eligendi, perferendis obcaecati repellat eius! Sint maxime odio architecto numquam illo possimus explicabo maiores illum!",
+  //   },
+  // ];
+
+  const [pengumuman, setPengumuman] = useState([])
+  const getData = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/api/pengumuman");
+      setPengumuman(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <>
@@ -34,7 +50,7 @@ const Pengumuman = () => {
             <div className="mt-3 bg-primary-2 h-screen item-center">
               <h1 className="text-primary-2">Lihat Pengumuman</h1>
               <ul>
-                {data.map((item) => (
+                {pengumuman.map((item) => (
                   <li key={item.id}>
                     <div className="mt-10">
                       <div className="bg-base-1 w-11/12 mx-auto flex">
@@ -43,7 +59,7 @@ const Pengumuman = () => {
                           <p>{item.isi}</p>
                         </div>
                         <div className="bg-primary-2 w-28 h-10 m-auto mr-4 text-center text-base-1">
-                          <Link to={{ pathname: `/pengumuman/%{item.id}` }} className="m-auto">
+                          <Link  to={`/user/pengumuman/${item.id}`} className="m-auto">
                             Lihat
                           </Link>
                         </div>

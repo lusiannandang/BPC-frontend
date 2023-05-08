@@ -1,5 +1,4 @@
 import React from "react";
-import Footer from "../components/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
@@ -19,7 +18,6 @@ const Register = () => {
   const [modal, setModal] = useState(false);
 
   const [error, setError] = useState("");
-  const [modalMessage, setmodalMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -29,13 +27,11 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (form.password != form.rePassword) {
-      setmodalMessage("Password tidak sama");
-      setModal(true);
+      setError("Password tidak sama");
       return;
     }
     if (form.password < 6) {
-      setmodalMessage("Password harus lebih dari 6 karakter");
-      setModal(true);
+      setError("Password harus lebih dari 6 karakter");
       return;
     } else {
       setError("");
@@ -43,10 +39,9 @@ const Register = () => {
         const response = await axios.post("http://localhost:3000/api/register", form);
         console.log(response.data);
         setModal(true);
-        setmodalMessage("Register berhasil!")
         setTimeout(() => {
           setModal(false);
-          navigate("/login");
+          navigate("/admin");
         }, 2000);
       } catch (error) {
         console.log(error);
@@ -58,13 +53,13 @@ const Register = () => {
     <>
       <div className="bg-primary-1 w-screen p-20">
         <div className="bg-base-1 w-1/2 min-w-2xl mx-auto p-4 bg-white rounded-lg shadow">
-          {modal && (
-            <div className="w-full h-full bg-success rounded-lg mb-3">
-              <p className=" p-3 text-center text-base-1 ">{modalMessage}</p>
-            </div>
-          )}
           <form onSubmit={handleSubmit}>
-            <h1 className="text-center text-2xl mb-6">Daftar Menjadi Anggota BPC</h1>
+            {modal && (
+              <div className="w-full h-full bg-success rounded-lg mb-3">
+                <p className=" p-3 text-center text-base-1 ">Berhasil didaftarkan</p>
+              </div>
+            )}
+            <h1 className="text-center text-2xl mb-6">Tambah Anggota</h1>
             <div className="grid gap-2 mb-2 md:grid-cols-2">
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama</label>
@@ -185,20 +180,13 @@ const Register = () => {
               />
             </div>
             <div>
-              <button type="submit" className="mx-auto text-base-1 bg-primary-1 hover:bg-primary-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
-                Daftar
+              <button type="submit" className="mx-auto text-base-1 bg-primary-2 hover:bg-primary-1 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
+                Tambah{" "}
               </button>
             </div>
-            <h2 className="text-sm mt-3 text-center">
-              Sudah punya akun?{" "}
-              <Link to="/login" className="text-primary-1 hover:text-primary-2">
-                Login disini
-              </Link>
-            </h2>
           </form>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

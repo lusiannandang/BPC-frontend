@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useAuth } from "../../hooks/useAuth";
 
 const KuisionerForm = () => {
+  const { user, setUser } = useAuth();
+  console.log(user.kelas);
   const [hasilPrediksi, setHasilPrediksi] = useState("");
   const [kuisionerData, setKuisionerData] = useState({
     lamaLatihan: "",
@@ -20,15 +23,12 @@ const KuisionerForm = () => {
     e.preventDefault();
     console.log(kuisionerData);
     try {
-      // Menggunakan Axios untuk melakukan POST request ke endpoint API
-      const response = await axios.post("http://localhost:3000/api/kelas", kuisionerData);
+      const response = await axios.post(`http://localhost:3000/api/users/${user.id}/kelas`, kuisionerData);
       if (response.status === 200) {
-        // Jika berhasil, mengambil hasil prediksi dari respons
         const hasilPrediksi = response.data;
         console.log(hasilPrediksi);
         setHasilPrediksi(hasilPrediksi);
       } else {
-        // Jika terjadi kesalahan, menampilkan pesan error
         console.error("Terjadi kesalahan dalam mengirim data kuisioner");
       }
     } catch (error) {
@@ -236,7 +236,7 @@ const KuisionerForm = () => {
         {hasilPrediksi && (
           <div className="bg-primary-1 px-10 h-28 mt-4 my-auto">
             <h2>Hasil Prediksi</h2>
-            <p>Hasil: {hasilPrediksi.name}</p>
+            <p>Hasil: {hasilPrediksi.nama}</p>
           </div>
         )}
       </div>
