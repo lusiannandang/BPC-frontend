@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      if (id != null) {
+      if (id != null && token != null) {
         try {
           const response = await axios.get(`http://localhost:3000/api/user/${id}`, {
             headers: {
@@ -45,40 +45,46 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchPembayaran = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/users/${id}/pembayaran`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (response.data.length === 0) {
-          setPembayaran("");
-        } else {
-          setPembayaran(response.data);
+        const storedToken = localStorage.getItem("token");
+        if (storedToken != null && id != null) {
+          const response = await axios.get(`http://localhost:3000/api/users/${id}/pembayaran`, {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+            },
+          });
+          if (response.data.length === 0) {
+            setPembayaran("");
+          } else {
+            setPembayaran(response.data);
+          }
         }
       } catch (err) {
         console.error(err);
       }
     };
-
+  
     fetchPembayaran();
-  }, [id, token]);
+  }, [id]);
 
   useEffect(() => {
     const fetchKelas = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/users/${id}/kelas`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setKelas(response.data);
+        const storedToken = localStorage.getItem("token");
+        if (storedToken != null && id != null) {
+          const response = await axios.get(`http://localhost:3000/api/users/${id}/kelas`, {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+            },
+          });
+          setKelas(response.data);
+        }
       } catch (err) {
         console.error(err);
       }
     };
-
+  
     fetchKelas();
-  }, [id, token]);
+  }, [id]);
 
   useEffect(() => {
     if (kelas && kelas.length > 0) {
@@ -101,5 +107,21 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("role");
   };
 
-  return <AuthContext.Provider value={{ authenticated, setAuthenticated, id, setId, token, setToken, role, setRole, user, setUser, pembayaran, setPembayaran, kelas, setKelas, jumlah, setJumlah, logout }}>{children}</AuthContext.Provider>;
+  useEffect(() => {
+    if (token != null) {
+      localStorage.setItem("token", token);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (role != null) {
+      localStorage.setItem("role", role);
+    }
+  }, [role]);
+
+  return (
+    <AuthContext.Provider value={{ authenticated, setAuthenticated, id, setId, token, setToken, role, setRole, user, setUser, pembayaran, setPembayaran, kelas, setKelas, jumlah, setJumlah, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };

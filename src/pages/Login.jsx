@@ -97,16 +97,18 @@ const Login = () => {
               />
             </div>
             {error && <div>{error}</div>}
-            <button type="submit" className="item-center text-base-1 bg-primary-1 hover:bg-primary-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
-              Login
-            </button>
+            <div className="w-full flex justify-end">
+              <button type="submit" className=" text-base-1 bg-primary-2 px-10 rounded-md py-2 hover:bg-primary-1 text-center">
+                Login
+              </button>
+            </div>
           </form>
           <h2 className="text-sm mt-3 text-center">
-              Belum punya akun?{" "}
-              <Link to="/register" className="text-primary-1 hover:text-primary-2">
-                Daftar disini
-              </Link>
-            </h2>
+            Belum punya akun?{" "}
+            <Link to="/register" className="text-primary-1 hover:text-primary-2">
+              Daftar disini
+            </Link>
+          </h2>
         </div>
       </div>
       <Footer />

@@ -8,7 +8,7 @@ import { useAuth } from "../../hooks/useAuth";
 const Pembayaran = () => {
   const [status, setStatus] = useState(false);
   const { pembayaran, kelas, jumlah, setJumlah } = useAuth();
-  console.log(kelas[0].nama);
+  console.log(kelas[0]?.nama);
   console.log(jumlah);
 
   return (

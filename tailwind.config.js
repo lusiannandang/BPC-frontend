@@ -21,7 +21,7 @@ export default {
       },
       danger: {
         DEFAULT: "#df4759",
-        1: "#B34D4D"
+        1: "#e88490"
       },
       success: {
         DEFAULT: "#42ba96"

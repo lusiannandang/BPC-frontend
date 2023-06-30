@@ -19,7 +19,7 @@ const DetailPengumuman = () => {
   useEffect(() => {
     getData();
   }, []);
-  console.log(pengumuman.judul);
+  console.log(pengumuman);
 
   return (
     <div>
@@ -27,10 +27,11 @@ const DetailPengumuman = () => {
         <SideBar />
         <div className="ml-5 ">
           <h1 className="text-4xl font-semibold mt-16">Pengumuman</h1>
-          <div className="ml-5 mt-12">
+          <div className="mt-12 min-w-full">
           {pengumuman ? (
-            <div>
-              <h2>{pengumuman.judul}</h2>
+            <div className="w-full">
+              <img src={pengumuman.image} alt="picture" className="w-80 mt-auto" />
+              <h2 className="text-2xl font-semibold">{pengumuman.judul}</h2>
               <p>{pengumuman.isi}</p>
             </div>
           ) : (

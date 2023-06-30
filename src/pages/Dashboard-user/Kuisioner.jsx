@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const KuisionerForm = () => {
   const { user, setUser } = useAuth();
-  console.log(user.kelas);
+  const navigate = useNavigate();
+  const [modal, setModal] = useState(false);
+
   const [hasilPrediksi, setHasilPrediksi] = useState("");
   const [kuisionerData, setKuisionerData] = useState({
     lamaLatihan: "",
@@ -28,6 +31,9 @@ const KuisionerForm = () => {
         const hasilPrediksi = response.data;
         console.log(hasilPrediksi);
         setHasilPrediksi(hasilPrediksi);
+        setTimeout(() => {
+          navigate('/user')
+        }, 2000);
       } else {
         console.error("Terjadi kesalahan dalam mengirim data kuisioner");
       }

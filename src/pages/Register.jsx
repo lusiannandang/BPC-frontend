@@ -88,7 +88,7 @@ const Register = () => {
                   type="text"
                   id="last_name"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="Doe"
+                  placeholder="Alamat"
                   required
                   value={form.alamat}
                   onChange={handleChange}
@@ -103,7 +103,7 @@ const Register = () => {
                   type="text"
                   id="company"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="Flowbite"
+                  placeholder="Tempat Lahir"
                   required
                   value={form.tempatLahir}
                   onChange={handleChange}
@@ -133,7 +133,7 @@ const Register = () => {
                 type="number"
                 id="website"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="flowbite.com"
+                placeholder="082541254695"
                 required
                 value={form.noHp}
                 onChange={handleChange}
@@ -184,8 +184,8 @@ const Register = () => {
                 onChange={handleChange}
               />
             </div>
-            <div>
-              <button type="submit" className="mx-auto text-base-1 bg-primary-1 hover:bg-primary-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
+            <div className="w-full flex justify-end">
+              <button type="submit" className=" text-base-1 bg-primary-2 px-10 rounded-md py-2 hover:bg-primary-1 text-center">
                 Daftar
               </button>
             </div>

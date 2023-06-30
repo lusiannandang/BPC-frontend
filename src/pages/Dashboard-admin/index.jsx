@@ -52,7 +52,7 @@ const index = () => {
               <div>
                 <div className=" bg-base-1 h-4 mx-5">
                   <div className="w-full text-sm text-left text-base-3">
-                    <div className="text uppercase bg-base-1  border">
+                    <div className="text uppercase bg-base-1 border">
                       <div className="grid grid-cols-8 text-center font-bold">
                         <div scope="col" className="px-4 py-3">
                           No
@@ -98,12 +98,11 @@ const index = () => {
                                   <div className="py-3">{dateObj.toLocaleDateString("id-ID")}</div>
                                   <div className="py-3">{item.noHp}</div>
                                   <div className="py-3">{item.kelas}</div>
-                                  <div classname="text-center">
-                                    <button
-                                      type="button"
-                                      class="mt-2 text-base-1 bg-danger hover:bg-danger-1 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                                      onClick={() => handleDelete(item.id)}
-                                    >
+                                  <div classname="m-auto mr-4 text-center text-base-1">
+                                    <Link to={`/admin/${item.id}`} type="button" class="my-2 rounded-lg text-base-1 text-center bg-primary-2 p-3 py-2 mr-2 hover:bg-primary-1">
+                                      Edit
+                                    </Link>
+                                    <button type="button" class="my-2 rounded-lg text-base-1 text-center bg-danger p-3 py-2 hover:bg-danger-1" onClick={() => handleDelete(item.id)}>
                                       Hapus
                                     </button>
                                   </div>

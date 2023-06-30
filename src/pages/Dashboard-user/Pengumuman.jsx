@@ -5,24 +5,6 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 const Pengumuman = () => {
-  // const data = [
-  //   {
-  //     id: 1,
-  //     judul: "Libur",
-  //     isi: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed placeat nesciunt illo esse unde omnis eligendi, perferendis obcaecati repellat eius! Sint maxime odio architecto numquam illo possimus explicabo maiores illum!",
-  //   },
-  //   {
-  //     id: 2,
-  //     judul: "Libur",
-  //     isi: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed placeat nesciunt illo esse unde omnis eligendi, perferendis obcaecati repellat eius! Sint maxime odio architecto numquam illo possimus explicabo maiores illum!",
-  //   },
-  //   {
-  //     id: 3,
-  //     judul: "Libur",
-  //     isi: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed placeat nesciunt illo esse unde omnis eligendi, perferendis obcaecati repellat eius! Sint maxime odio architecto numquam illo possimus explicabo maiores illum!",
-  //   },
-  // ];
-
   const [pengumuman, setPengumuman] = useState([])
   const getData = async () => {
     try {

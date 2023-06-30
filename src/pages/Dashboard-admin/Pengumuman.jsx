@@ -36,7 +36,7 @@ const Pengumuman = () => {
             <h1>Pengumuman</h1>
           </div>
           <div className="ml-5 mt-12">
-            <div className="mt-3 bg-primary-2 ">
+            <div className="mt-3 bg-primary-2 min-h-screen ">
               <h1 className="text-primary-2">Lihat Pengumuman</h1>
               <ul>
                 <div className="text-right mt-8 ">
@@ -54,7 +54,8 @@ const Pengumuman = () => {
                           <p>{item.isi}</p>
                         </div>
                         <div className="space-x-2 m-auto mr-4 text-center text-base-1">
-                          <button onClick={() => handleDelete(item.id)} className="mt-2  text-center bg-danger w-28 py-2 hover:bg-primary-1">Hapus</button>
+                          <Link to={`/admin/pengumuman/${item.id}`} className="mt-2  text-center bg-primary-2 p-5 py-2 hover:bg-primary-1">Edit</Link >
+                          <button onClick={() => handleDelete(item.id)} className="mt-2  text-center bg-danger p-5 py-2 hover:bg-danger-1">Hapus</button>
                         </div>
                       </div>
                     </div>
