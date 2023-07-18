@@ -3,6 +3,7 @@ import SideBar from "../../components/SidebarAdmin";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Swal from "sweetalert";
 
 const Pengumuman = () => {
   const [pengumuman, setPengumuman] = useState([]);
@@ -26,9 +27,28 @@ const Pengumuman = () => {
       console.error(err);
     }
   };
+
+  const showConfirmation = (id) => {
+    Swal({
+      title: "Hapus",
+      text: "Apakah Anda yakin ingin menghapus pengumuman?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((confirm) => {
+      if (confirm) {
+        handleDelete(id)
+        console.log("Konfirmasi berhasil");
+        Swal.close();
+      } else {
+        Swal.close();
+        console.log("Konfirmasi dibatalkan");
+      }
+    });
+  };
   return (
     <>
-      <div className="w-full max-w-screen-xl flex flex-row pt-16 sm:ml-64">
+      <div className="w-max max-w-screen-xl flex flex-row pt-16 sm:ml-64">
         <SideBar />
 
         <section className="w-screen h-screen p-5">
@@ -55,7 +75,7 @@ const Pengumuman = () => {
                         </div>
                         <div className="space-x-2 m-auto mr-4 text-center text-base-1">
                           <Link to={`/admin/pengumuman/${item.id}`} className="mt-2  text-center bg-primary-2 p-5 py-2 hover:bg-primary-1">Edit</Link >
-                          <button onClick={() => handleDelete(item.id)} className="mt-2  text-center bg-danger p-5 py-2 hover:bg-danger-1">Hapus</button>
+                          <button onClick={() => showConfirmation(item.id)} className="mt-2  text-center bg-danger p-5 py-2 hover:bg-danger-1">Hapus</button>
                         </div>
                       </div>
                     </div>

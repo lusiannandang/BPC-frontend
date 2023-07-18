@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import SideBar from "../../components/SidebarAdmin";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert";
 
 const Pendaftaran = () => {
   const [status, setStatus] = useState([]);
@@ -38,6 +39,39 @@ const Pendaftaran = () => {
     }
   };
 
+  const showConfirmation = (id, action) => {
+    let confirmationText = "";
+    let confirmationTitle = "";
+    let confirmationFunction = null;
+  
+    if (action === "delete") {
+      confirmationTitle = "Konfirmasi Hapus";
+      confirmationText = "Apakah Anda yakin ingin menghapus user?";
+      confirmationFunction = handleDelete;
+    } else if (action === "approve") {
+      confirmationTitle = "Konfirmasi Setujui";
+      confirmationText = "Apakah Anda yakin ingin menyetujui user?";
+      confirmationFunction = handleApprove;
+    }
+  
+    Swal({
+      title: confirmationTitle,
+      text: confirmationText,
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((confirm) => {
+      if (confirm) {
+        confirmationFunction(id);
+        console.log("Konfirmasi berhasil");
+        Swal.close();
+      } else {
+        Swal.close();
+        console.log("Konfirmasi dibatalkan");
+      }
+    });
+  };
+  
   const filteredUsers = user.filter((item) => item.status === false && item.role === "USER");
   return (
     <>
@@ -49,7 +83,7 @@ const Pendaftaran = () => {
             <h1>Pendaftaran</h1>
           </div>
           <div className="ml-5 mt-12">
-            <div className="mt-3 bg-primary-2 h-screen">
+            <div className="mt-3 bg-primary-2 min-h-screen">
               <h1 className="text-primary-2">Lihat Pengumuman</h1>
               <h1 className="ml-14 text-lg text-base-1">Ajuan Pendaftar</h1>
               {filteredUsers.length > 0 ? (
@@ -64,10 +98,10 @@ const Pendaftaran = () => {
                               <p>{item.kelas}</p>
                             </div>
                             <div className="space-x-2 h-10 m-auto mr-4 text-center text-base-1">
-                              <button onClick={() => handleApprove(item.id)} className="mt-2 text-center bg-primary-2 w-28 py-2 hover:bg-primary-1">
+                              <button onClick={() => showConfirmation(item.id, "approve")} className="mt-2 text-center bg-primary-2 w-28 py-2 hover:bg-primary-1">
                                 Setujui
                               </button>
-                              <button onClick={() => handleDelete(item.id)} className="mt-2 text-center bg-danger w-28 py-2 hover:bg-danger-1">
+                              <button onClick={() => showConfirmation(item.id, "delete")} className="mt-2 text-center bg-danger w-28 py-2 hover:bg-danger-1">
                                 Hapus
                               </button>
                             </div>

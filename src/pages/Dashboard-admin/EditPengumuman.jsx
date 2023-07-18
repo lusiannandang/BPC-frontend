@@ -91,7 +91,7 @@ const EditPengumuman = () => {
                 </label>
                 <div className="text-right mt-8 ">
                   <button type="submit" className="text-center bg-primary-2 text-base-1 px-5 py-2 rounded-md mr-10 hover:bg-primary-1">
-                    Tambah
+                    Edit
                   </button>
                 </div>
               </form>

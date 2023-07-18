@@ -25,13 +25,13 @@ const DetailPengumuman = () => {
     <div>
       <div className="max-w-screen-xl flex flex-row pt-16 sm:ml-64">
         <SideBar />
-        <div className="ml-5 ">
+        <div className="ml-5 w-full">
           <h1 className="text-4xl font-semibold mt-16">Pengumuman</h1>
           <div className="mt-12 min-w-full">
           {pengumuman ? (
-            <div className="w-full">
-              <img src={pengumuman.image} alt="picture" className="w-80 mt-auto" />
-              <h2 className="text-2xl font-semibold">{pengumuman.judul}</h2>
+            <div className="w-full space-y-5">
+              <img src={pengumuman.image} alt="picture" className="w-80 m-auto mb-6" />
+              <h2 className="text-4xl font-semibold pl-7">{pengumuman.judul}</h2>
               <p>{pengumuman.isi}</p>
             </div>
           ) : (

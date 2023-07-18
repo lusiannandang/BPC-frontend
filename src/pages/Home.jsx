@@ -50,21 +50,21 @@ const Home = () => {
                   <img src="/gambar2.jpeg" alt="" className="max-w-52" />
                 </div>
                 <h5 className="text-[20px] text-base-3 font-semibold">Club yang terpercaya</h5>
-                <p className="text-[#454848]">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore eius omnis possimus sequi. Delectus architecto ipsa consequuntur ullam ab officiis dolorum! Nam aliquam voluptatibus nihil et earum dolore? Nihil, molestiae!</p>
+                <p className="text-[#454848]">Temukan kekuatanmu di dalam air. Bergabunglah dengan kami di Club Renang Terpercaya dan nikmati pengalaman renang yang menginspirasi, instruktur terlatih, dan fasilitas yang modern. Bersama, kita menjelajahi keajaiban renang dan mencapai prestasi yang luar biasa!</p>
               </div>
               <div className="flex flex-col items-center max-w-sm text-center gap-y-3">
                 <div className="h-64">
                   <img src="/gambar2.jpeg" alt="" className="max-w-52" />
                 </div>
                 <h5 className="text-[20px] text-base-3 font-semibold">Sistem latihan yang baik</h5>
-                <p className="text-[#454848]">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorum aliquid molestiae accusamus velit unde enim fugiat! Ab aut et sapiente ullam atque quo dolorum, excepturi, aperiam enim, modi molestiae totam?</p>
+                <p className="text-[#454848]">Latihan yang baik adalah kunci menuju kesuksesan. Temukan kekuatan dalam konsistensi, disiplin dalam upaya, dan transformasi dalam dedikasi. Bergabunglah dengan sistem latihan kami dan temukan potensi Anda yang sejati.</p>
               </div>
               <div className="flex flex-col items-center max-w-sm text-center gap-y-3">
                 <div className="h-64">
                   <img src="/gambar2.jpeg" alt="" className="max-w-52" />
                 </div>
-                <h5 className="text-[20px] text-base-3 font-semibold">Harga yang bersahabat</h5>
-                <p className="text-[#454848]">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia illum error nesciunt at blanditiis? Magni vero, dignissimos aut delectus eveniet adipisci nobis perferendis? Corporis nulla tempora adipisci totam voluptatibus dolorem.</p>
+                <h5 className="text-[20px] text-base-3 font-semibold">Pelatih yang berpengalaman</h5>
+                <p className="text-[#454848]">Berlatih bersama pelatih yang berpengalaman dalam mencetak atlet - atlet unggulan dan berprestasi!</p>
               </div>
             </div>
           </div>
@@ -74,20 +74,14 @@ const Home = () => {
           <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
             <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Bergabung dan berprestasi bersama</h1>
             <p className="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt obcaecati ducimus distinctio molestiae possimus tempora at corporis omnis, iste eum libero porro consectetur architecto dicta ipsum dignissimos laudantium iure necessitatibus.
+             Mari bergabung dengan Banyu Pratama Swimming Club dan menjadi atlet renang yang berprestasi!
             </p>
             <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
-              <a href="#" className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
-                Daftar Sekarang
-                <svg aria-hidden="true" className="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                </svg>
-              </a>
               <a
                 href="/register"
                 className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
               >
-                Daftar Disini
+                Daftar Sekarang!
               </a>
             </div>
           </div>

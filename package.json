@@ -15,6 +15,7 @@
     "react-auth-kit": "^2.12.2",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
+    "sweetalert": "^2.1.2",
     "swiper": "^9.2.0"
   },
   "devDependencies": {

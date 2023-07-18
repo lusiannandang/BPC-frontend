@@ -1,28 +1,67 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SideBar from "../../components/SidebarUser";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const index = () => {
-  const { user, kelas } = useAuth();
+  const [user, setUser] = useState([]);
+  const [kelas, setKelas] = useState([]);
+  const { token } = useAuth();
   const navigate = useNavigate();
 
   if (!user) {
     navigate("/login");
     return null;
   }
-  
-  const kelasUser = kelas[0] && kelas[0].nama ? kelas[0].nama : 'Kamu Belum Memiliki Kelas!';
-  console.log(kelas);
+  const id = localStorage.getItem("id");
+
+  let namaKelas;
+  if (user && Array.isArray(user.Kelas) && user.Kelas.length > 0) {
+    namaKelas = user.Kelas[0].nama;
+  } else {
+    namaKelas = "Kelas tidak ditemukan";
+  }
+
+  const getData = async () => {
+    if (id != null && token != null) {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/user/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUser(response.data);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getKelas = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/kelas");
+      setKelas(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  useEffect(() => {
+    getKelas();
+  }, []);
+
 
   let jadwal;
-  if (kelasUser === 'Pemula') {
-    jadwal = 'Hari Senin, Selasa, Kamis, Sabtu Pukul 15.30';
-  } else if (kelasUser === 'Semi Prestasi') {
-    jadwal = 'Hari Senin, Selasa, Rabu, Kamis, Sabtu Pukul 15.30';
-  } else if (kelasUser === 'Prestasi') {
-    jadwal = 'Hari Senin, Selasa, Rabu, Kamis, Jumat, Sabtu Pukul 15.30';
+  if (user && user.Kelas && user.Kelas.length > 0 && user?.Kelas[0]?.nama === "Pemula") {
+    jadwal = "Hari Senin, Selasa, Kamis, Sabtu Pukul 15.30";
+  } else if (user && user.Kelas && user.Kelas.length > 0 && user?.Kelas[0]?.nama === "Semi Prestasi") {
+    jadwal = "Hari Senin, Selasa, Rabu, Kamis, Sabtu Pukul 15.30";
+  } else if (user && user.Kelas && user.Kelas.length > 0 && user?.Kelas[0]?.nama === "Prestasi") {
+    jadwal = "Hari Senin, Selasa, Rabu, Kamis, Jumat, Sabtu Pukul 15.30";
   }
 
   return (
@@ -57,14 +96,13 @@ const index = () => {
           <div className="ml-5 mt-12 mb-12">
             <h1>Anggota kelas anda</h1>
             <div className="mt-3 bg-primary-2 h-screen w-full">
-              {kelas && kelas.length > 0 ? (
+              {user.Kelas && user.Kelas.length > 0 ? (
                 <div className="mt-3">
-                  <h1 className=" text-base-1 p-5 text-xl">{kelasUser}</h1>
+                  <h1 className=" text-base-1 p-5 text-xl">{namaKelas}</h1>
                   <div className=" bg-base-1 h-4 mx-5">
                     <div className="w-full text-sm text-left text-base-3">
                       <div className="text bg-base-1 border">
                         <div className="grid grid-cols-3 text-center font-bold">
-                          
                           <div scope="col" className="px-6 py-3">
                             Nama
                           </div>
@@ -75,50 +113,24 @@ const index = () => {
                             No Hp
                           </div>
                         </div>
-                        <div className="border grid grid-cols-3 text-center">
-                          <div scope="col" className="px-6 py-3">
-                            Antoni
-                          </div>
-                          <div scope="col" className="px-6 py-3">
-                            Surabaya
-                          </div>
-                          <div scope="col" className="px-6 py-3">
-                            082123123123
-                          </div>
-                        </div>
-                        <div className="border grid grid-cols-3 text-center">
-                          <div scope="col" className="px-6 py-3">
-                            John Terry
-                          </div>
-                          <div scope="col" className="px-6 py-3">
-                            Surabaya
-                          </div>
-                          <div scope="col" className="px-6 py-3">
-                            082123123123
-                          </div>
-                        </div>
-                        <div className="border grid grid-cols-3 text-center">
-                          <div scope="col" className="px-6 py-3">
-                            Annisa
-                          </div>
-                          <div scope="col" className="px-6 py-3">
-                            Surabaya
-                          </div>
-                          <div scope="col" className="px-6 py-3">
-                            082123123123
-                          </div>
-                        </div>
-                        <div className="border grid grid-cols-3 text-center">
-                          <div scope="col" className="px-6 py-3">
-                            Antoni
-                          </div>
-                          <div scope="col" className="px-6 py-3">
-                            Surabaya
-                          </div>
-                          <div scope="col" className="px-6 py-3">
-                            082123123123
-                          </div>
-                        </div>
+
+                        {kelas.map((item) => {
+                          if (item.nama === namaKelas) {
+                            return (
+                              <div className="border grid grid-cols-3 text-center" key={item.id}>
+                                <div scope="col" className="px-6 py-3">
+                                  {item.User.name}
+                                </div>
+                                <div scope="col" className="px-6 py-3">
+                                  {item.User.alamat}
+                                </div>
+                                <div scope="col" className="px-6 py-3">
+                                  {item.User.noHp}
+                                </div>
+                              </div>
+                            );
+                          }
+                        })}
                       </div>
                     </div>
                   </div>

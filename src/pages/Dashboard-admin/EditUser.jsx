@@ -7,8 +7,9 @@ import { useAuth } from "../../hooks/useAuth";
 import axios from "axios";
 
 const ProfileUser = () => {
-    const { id } = useParams();
-  const { user, setUser } = useAuth();
+  const { id } = useParams();
+  console.log(id);
+  const [ user, setUser ] = useState([]);
   const [formData, setFormData] = useState({
     name: user.name,
     alamat: user.alamat,
@@ -25,6 +26,19 @@ const ProfileUser = () => {
     });
   };
 
+  const getData = async () => {
+    try {
+      const res = await axios.get(`http://localhost:3000/api/users/${id}`);
+      setUser(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -39,7 +53,8 @@ const ProfileUser = () => {
 
   const dateString = user.tanggalLahir;
   const dateObj = new Date(dateString);
-  console.log(dateObj);
+  console.log(user);
+  
 
   return (
     <>

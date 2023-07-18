@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 
 const KuisionerForm = () => {
-  const { user, setUser } = useAuth();
+  const { user, setUser, getKelas } = useAuth();
   const navigate = useNavigate();
-  const [modal, setModal] = useState(false);
+
+  const id = localStorage.getItem("id");
 
   const [hasilPrediksi, setHasilPrediksi] = useState("");
   const [kuisionerData, setKuisionerData] = useState({
@@ -26,14 +28,20 @@ const KuisionerForm = () => {
     e.preventDefault();
     console.log(kuisionerData);
     try {
-      const response = await axios.post(`http://localhost:3000/api/users/${user.id}/kelas`, kuisionerData);
+      const response = await axios.post(`http://localhost:3000/api/users/${id}/kelas`, kuisionerData);
       if (response.status === 200) {
         const hasilPrediksi = response.data;
         console.log(hasilPrediksi);
         setHasilPrediksi(hasilPrediksi);
-        setTimeout(() => {
-          navigate('/user')
-        }, 2000);
+        swal({
+          title: "Kelas Anda",
+          text: `${hasilPrediksi.nama}`,
+          type: "success",
+          confirmButtonText: "OK",
+        }).then(() => {
+          getKelas(); 
+          navigate("/user");
+        });
       } else {
         console.error("Terjadi kesalahan dalam mengirim data kuisioner");
       }
@@ -49,6 +57,12 @@ const KuisionerForm = () => {
         <form className="block space-y-7" onSubmit={handleSubmit}>
           <div className="">
             <div className="bg-primary-1">
+              {hasilPrediksi && (
+                <div className="bg-primary-1 px-10 h-28 mt-4 my-auto">
+                  <h2>Hasil Prediksi</h2>
+                  <p>Hasil: {hasilPrediksi.nama}</p>
+                </div>
+              )}
               <p className="px-10 h-28 py-10 text-xl">Sebagai penentuan kelas latihan pada Banyu Pratama Swimming Club, anda harus mengisi bebepra pertanyaan!</p>
             </div>
 
@@ -211,7 +225,7 @@ const KuisionerForm = () => {
                 <label>0 (kosong)</label>
               </div>
               <div className="space-x-4">
-                <input
+              <input
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   type="radio"
                   name="jarakLatihan"
@@ -238,13 +252,6 @@ const KuisionerForm = () => {
             </button>
           </div>
         </form>
-
-        {hasilPrediksi && (
-          <div className="bg-primary-1 px-10 h-28 mt-4 my-auto">
-            <h2>Hasil Prediksi</h2>
-            <p>Hasil: {hasilPrediksi.nama}</p>
-          </div>
-        )}
       </div>
     </>
   );

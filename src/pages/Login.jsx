@@ -21,6 +21,7 @@ const Login = () => {
       setAuthenticated(true);
       setId(response.data.userId);
       setToken(response.data.token);
+      localStorage.setItem("id", response.data.userId);
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("role", response.data.role);
       setRole(response.data.role);

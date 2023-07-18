@@ -4,9 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import axios from "axios";
+import Swal from "sweetalert";
 
 const ProfileUser = () => {
-  const { user, setUser } = useAuth();
+  const { token, logout } = useAuth();
+  const [user, setUser] = useState([]);
   const [formData, setFormData] = useState({
     name: user.name,
     alamat: user.alamat,
@@ -14,7 +16,26 @@ const ProfileUser = () => {
     tempatLahir: user.tempatLahir,
     noHp: user.noHp,
   });
-  const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const id = localStorage.getItem("id");
+
+  const getData = async () => {
+    if (id != null && token != null) {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/user/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUser(response.data);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+  useEffect(() => {
+    getData();
+  }, []);
+
   const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({
@@ -28,11 +49,39 @@ const ProfileUser = () => {
     try {
       await axios.put(`http://localhost:3000/api/user/${user.id}`, formData);
       setUser(formData);
-      setSuccessModalOpen(true);
       navigate("/user");
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/user/${user.id}`);
+      navigate("/login");
+      logout();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const showConfirmation = (id) => {
+    Swal({
+      title: "Konfirmasi",
+      text: "Apakah Anda yakin ingin menghapus akun?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((confirm) => {
+      if (confirm) {
+        handleDelete(id);
+        console.log("Konfirmasi berhasil");
+        Swal.close();
+      } else {
+        Swal.close();
+        console.log("Konfirmasi dibatalkan");
+      }
+    });
   };
 
   const dateString = user.tanggalLahir;
@@ -45,7 +94,7 @@ const ProfileUser = () => {
         <SideBar />
 
         <section className="w-screen h-screen p-5">
-          <div className="ml-5 mt-12">
+          <div className="ml-5 mt-12 pb-10">
             <div className="ml-5 text-4xl font-semibold my-16">
               <h1>Edit Profile</h1>
             </div>
@@ -112,11 +161,16 @@ const ProfileUser = () => {
               </div>
 
               <div className=" mt-7 text-right ">
-                <button type="submit" className="bg-primary-2 text-base-1 px-32 py-3 rounded-lg mr-10 hover:bg-primary-1 ">
+                <button type="submit" className="bg-primary-2 text-base-1 px-28 py-3 rounded-lg mr-10 hover:bg-primary-1 ">
                   Edit
                 </button>
               </div>
             </form>
+            <div className=" mt-7 text-right ">
+              <button onClick={showConfirmation} className="bg-danger text-base-1 px-24 py-3 rounded-lg mr-10 hover:bg-danger-1 ">
+                Hapus Akun
+              </button>
+            </div>
           </div>
         </section>
       </div>

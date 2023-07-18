@@ -7,10 +7,61 @@ import { useAuth } from "../../hooks/useAuth";
 
 const Pembayaran = () => {
   const [status, setStatus] = useState(false);
-  const { pembayaran, kelas, jumlah, setJumlah } = useAuth();
-  console.log(kelas[0]?.nama);
-  console.log(jumlah);
+  const {  jumlah, setJumlah,token } = useAuth();
+  const [pembayaran, setPembayaran] = useState([]);
+  const [kelas, setKelas] = useState([]);
 
+  const id = localStorage.getItem("id");
+
+  const getData = async () => {
+    if (id != null && token != null) {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/users/${id}/pembayaran`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.data === null) {
+            setPembayaran("");
+          } else {
+            setPembayaran(response.data);
+          }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+  useEffect(() => {
+    getData();
+  }, []);
+  
+  const getKelas = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3000/api/users/${id}/kelas`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setKelas(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  useEffect(() => {
+    getKelas();
+  }, []);
+
+  if (kelas && kelas.length > 0) {
+    if (kelas[0].nama === "Pemula") {
+      setJumlah(275000);
+    } else if (kelas[0].nama === "Semi Prestasi") {
+      setJumlah(300000);
+    } else if (kelas[0].nama === "Prestasi") {
+      setJumlah(350000);
+    }
+  }
+
+  console.log(pembayaran);
   return (
     <>
       <div className="max-w-screen-xl flex flex-row pt-16 sm:ml-64">

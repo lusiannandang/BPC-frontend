@@ -45,14 +45,13 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchPembayaran = async () => {
       try {
-        const storedToken = localStorage.getItem("token");
-        if (storedToken != null && id != null) {
+        if (token != null && id != null) {
           const response = await axios.get(`http://localhost:3000/api/users/${id}/pembayaran`, {
             headers: {
-              Authorization: `Bearer ${storedToken}`,
+              Authorization: `Bearer ${token}`,
             },
           });
-          if (response.data.length === 0) {
+          if (response.data === null) {
             setPembayaran("");
           } else {
             setPembayaran(response.data);
@@ -62,7 +61,7 @@ export const AuthProvider = ({ children }) => {
         console.error(err);
       }
     };
-  
+
     fetchPembayaran();
   }, [id]);
 
@@ -82,21 +81,25 @@ export const AuthProvider = ({ children }) => {
         console.error(err);
       }
     };
-  
+
     fetchKelas();
   }, [id]);
 
-  useEffect(() => {
-    if (kelas && kelas.length > 0) {
-      if (kelas[0].nama === 'Pemula') {
-        setJumlah(275000);
-      } else if (kelas[0].nama === 'Semi Prestasi') {
-        setJumlah(300000);
-      } else if (kelas[0].nama === 'Prestasi') {
-        setJumlah(350000);
+  const getKelas = async () => {
+    try {
+      if (kelas === null) { 
+        const response = await axios.get(`http://localhost:3000/api/users/${id}/kelas`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setKelas(response.data);
       }
+    } catch (err) {
+      console.error(err);
     }
-  }, [kelas]);
+  };
+  
 
   const logout = () => {
     setAuthenticated(false);
@@ -105,6 +108,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem("token");
     localStorage.removeItem("role");
+    localStorage.removeItem("id");
   };
 
   useEffect(() => {
@@ -120,7 +124,7 @@ export const AuthProvider = ({ children }) => {
   }, [role]);
 
   return (
-    <AuthContext.Provider value={{ authenticated, setAuthenticated, id, setId, token, setToken, role, setRole, user, setUser, pembayaran, setPembayaran, kelas, setKelas, jumlah, setJumlah, logout }}>
+    <AuthContext.Provider value={{ authenticated, setAuthenticated, id, setId, token, setToken, role, setRole, user, setUser, pembayaran, setPembayaran, kelas, setKelas, jumlah, setJumlah, logout, getKelas }}>
       {children}
     </AuthContext.Provider>
   );
